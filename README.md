@@ -5,45 +5,44 @@
 
 使用的时候需要引入#import <UBTVCRouter/UBTVCRouter.h>头文件
 
-所有需要跳转的控制器必须继承自UBTRouterViewController
+如果有需要跳转的控制器继承自UBTRouterViewController，UBTRouterViewController中已经设定了一定类似Block属性值，直接调用即可，无需额外的声明
 
 如果采用配置的方式，需要有一个配置文件UBTRouterManagerVCConfigure.plist
 
 具体使用方式可参考Demo
 
+Framework中含有Category文件，所以在工程配置Other Linker Flags中配置一个-ObjC项
 # Usage
 
 方式一：映射的方式
     
-    UIImage *image = [[UIImage alloc] init];
-    UIViewController *testVC = [[UIViewController alloc] init];
-    UBTModel *model = [[UBTModel alloc] init];
-    model.name = @"chacha";
-
-    NSDictionary *params = @{@"string":@"参数一", @"image":image, @"vc":testVC, @"model":model};
-
-    [UBTRouterManager pushWithTarget:self
-                                 key:Second
-                          withParams:params
-                             handler:^(UBTRouterBlockParam *routerBlockParam) {
-
-                                 NSLog(@"回调回来的数据:%@",routerBlockParam.object);
-    }];
+    self.routerVC = [UBTRouterManager pushWithTarget:self key:Second];
     
 方式二：传入类名的方式
      
-     UIImage *image = [[UIImage alloc] init];
-     UIViewController *testVC = [[UIViewController alloc] init];
-     UBTModel *model = [[UBTModel alloc] init];
-     model.name = @"chacha";
+     self.routerVC = [UBTRouterManager pushWithTarget:self toClassName:@"FirstViewController"];
+
+ 属性赋值：
+ 
+ 采用函数编程的方式给属性赋值：
+ 
+     object.setValueForKey(@"我是渣渣",@"testString")
+     .setValueForKey(model,@"model")
      
-     NSDictionary *params = @{@"string":@"参数一", @"image":image, @"vc":testVC, @"model":model};
+ 需要判断object对象是否为nil，获采用另外的方式进行调用：
      
-     [UBTRouterManager pushWithTarget:self
-                          toClassName:@"FirstViewController"
-                           withParams:params
-                              handler:^(UBTRouterBlockParam *routerBlockParam) {
+     UBTRouterBlock block = ^(UBTRouterBlockParam *routerBlockParam) {
+         NSLog(@"presentAction routerBlockTest回调=%@",routerBlockParam.object);
+     };
      
-                                  NSLog(@"回调回来的数据:%@",routerBlockParam.object);
-     }];
+     SafeSetValue(self.routerVC, block, @"routerBlockTest")
+
+ 方法调用：
+ 
+     UBTRouterBlock block = ^(UBTRouterBlockParam *routerBlockParam) {
+         NSLog(@"callFunctionWithSelectorName routerBlockTest回调=%@",routerBlockParam.object);
+     };
+     [self.routerVC callFunctionWithSelectorName:@"test:nd:completion:" withObjects:@[@"1234",@"456",block]];
+     
+ 除了采用统一的方法调用之外，可以定义一个Category来声明方法，此方案的缺点，需要针对于每一个所需要的方法都重新在Category中声明一遍
 
