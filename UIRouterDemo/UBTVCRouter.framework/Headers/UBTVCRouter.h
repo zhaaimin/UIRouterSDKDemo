@@ -11,6 +11,8 @@
 
 #import "UBTRouterManager.h"
 #import "UBTRouterBlockParam.h"
+#import "NSObject+UBTRouter.h"
+
 #import "UBTRouterViewController.h"
 
 #endif /* UBTVCRouter_h */

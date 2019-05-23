@@ -15,11 +15,11 @@
 		051C38F1228D4EFC003D4BAF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 051C38F0228D4EFC003D4BAF /* main.m */; };
 		051C38FB228D4EFC003D4BAF /* UIRouterDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 051C38FA228D4EFC003D4BAF /* UIRouterDemoTests.m */; };
 		051C3906228D4EFC003D4BAF /* UIRouterDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 051C3905228D4EFC003D4BAF /* UIRouterDemoUITests.m */; };
-		051C3914228D4F06003D4BAF /* UBTVCRouter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 051C3913228D4F06003D4BAF /* UBTVCRouter.framework */; };
 		051C3917228D4F17003D4BAF /* UBTModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 051C3915228D4F17003D4BAF /* UBTModel.m */; };
 		051C391C228D4F4D003D4BAF /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 051C3918228D4F4D003D4BAF /* SecondViewController.m */; };
 		051C391D228D4F4D003D4BAF /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 051C391A228D4F4D003D4BAF /* FirstViewController.m */; };
 		051C391F228D4F52003D4BAF /* UBTRouterManagerVCConfigure.plist in Resources */ = {isa = PBXBuildFile; fileRef = 051C391E228D4F52003D4BAF /* UBTRouterManagerVCConfigure.plist */; };
+		051C395822968610003D4BAF /* UBTVCRouter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 051C395722968610003D4BAF /* UBTVCRouter.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,7 +56,6 @@
 		051C3901228D4EFC003D4BAF /* UIRouterDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UIRouterDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		051C3905228D4EFC003D4BAF /* UIRouterDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UIRouterDemoUITests.m; sourceTree = "<group>"; };
 		051C3907228D4EFC003D4BAF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		051C3913228D4F06003D4BAF /* UBTVCRouter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UBTVCRouter.framework; sourceTree = "<group>"; };
 		051C3915228D4F17003D4BAF /* UBTModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UBTModel.m; sourceTree = "<group>"; };
 		051C3916228D4F17003D4BAF /* UBTModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UBTModel.h; sourceTree = "<group>"; };
 		051C3918228D4F4D003D4BAF /* SecondViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
@@ -64,6 +63,7 @@
 		051C391A228D4F4D003D4BAF /* FirstViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstViewController.m; sourceTree = "<group>"; };
 		051C391B228D4F4D003D4BAF /* SecondViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
 		051C391E228D4F52003D4BAF /* UBTRouterManagerVCConfigure.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = UBTRouterManagerVCConfigure.plist; sourceTree = "<group>"; };
+		051C395722968610003D4BAF /* UBTVCRouter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UBTVCRouter.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,7 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				051C3914228D4F06003D4BAF /* UBTVCRouter.framework in Frameworks */,
+				051C395822968610003D4BAF /* UBTVCRouter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -115,7 +115,7 @@
 		051C38E0228D4EFB003D4BAF /* UIRouterDemo */ = {
 			isa = PBXGroup;
 			children = (
-				051C3913228D4F06003D4BAF /* UBTVCRouter.framework */,
+				051C395722968610003D4BAF /* UBTVCRouter.framework */,
 				051C38E1228D4EFB003D4BAF /* AppDelegate.h */,
 				051C38E2228D4EFB003D4BAF /* AppDelegate.m */,
 				051C38E4228D4EFB003D4BAF /* ViewController.h */,
@@ -471,6 +471,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ubt.UIRouterDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -491,6 +492,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ubt.UIRouterDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";

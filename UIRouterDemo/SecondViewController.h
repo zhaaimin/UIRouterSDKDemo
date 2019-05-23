@@ -6,11 +6,11 @@
 //  Copyright © 2019 zhazha. All rights reserved.
 //
 
-#import <UBTVCRouter/UBTVCRouter.h>
+#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SecondViewController : UBTRouterViewController
+@interface SecondViewController : UIViewController
 
 @end
 

@@ -7,12 +7,30 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "UBTRouterViewController.h"
+#import <UIKit/UIKit.h>
 
+#import <objc/runtime.h>
+#import <objc/message.h>
+
+static id (*custom_msgSend)(id, SEL, ...) = (id (*)(id, SEL, ...))objc_msgSend;
 
 @interface UBTRouterManager : NSObject
 
 /*!
+ * @brief 获取一个UBTRouterManager对象
+ *
+ * @discussion 实际上返回的对象是className所对应的类的相关对象
+ *
+ * @param className 需要获取的对象所对应的类名
+ * @param error 错误信息
+ *
+ * @return 返回一个UBTRouterManager对象
+ */
+
++ (UBTRouterManager *)instanceWithClassName:(NSString *)className
+                                      error:(NSError **)error;
+
+/*!
  * @brief 使用push的方式进入到一个新的页面
  *
  * @discussion 当不需要携带参数带新的控制器的时候使用改方法
@@ -20,42 +38,23 @@
  * @param target 当前绑定的控制器，一般传self
  * @param key    需要呈现的新的控制器
  *
- * @return 返回一个值标识当前是否push成功
+ * @return 返回一个UBTRouterManager对象
  */
-+ (BOOL)pushWithTarget:(id)target
-                   key:(NSString *)key;
-
-/*!
- * @brief 使用push的方式进入到一个新的页面，同时携带相关参数
- *
- * @discussion 当需要向下传递参数给新的控制器的时候使用改方法，传递的参数可以是任意类型，如果当前需要传多个参数，那么可以使用一个集合即可
- *
- * @param target 当前绑定的控制器，一般传self
- * @param key    配置的新的页面所配置的key
- * @param params 向下传递的数据
- *
- * @return 返回一个值标识当前是否push成功
- */
-+ (BOOL)pushWithTarget:(id)target
-                   key:(NSString *)key
-            withParams:(id)params;
++ (UBTRouterManager *)pushWithTarget:(id)target
+                                 key:(NSString *)key;
 
 /*!
  * @brief 使用push的方式进入到一个新的页面
  *
- * @discussion 当需要携带参数带新的控制器的时候使用改方法，传递的参数可以是任意类型，如果当前需要传多个参数，那么可以使用一个集合即可。回调方法传回新的控制器向上传递的数据，如果需要向上传递数据，使用该方法
+ * @discussion 当不需要携带参数带新的控制器的时候使用改方法
  *
  * @param target 当前绑定的控制器，一般传self
- * @param key    配置的新的页面所配置的key
- * @param params 向下传递的数据
- * @param hanler 回调向上传递的参数
+ * @param className 需要呈现的新的控制器
  *
- * @return 返回一个值标识当前是否push成功
+ * @return 返回一个UBTRouterManager对象
  */
-+ (BOOL)pushWithTarget:(id)target
-                   key:(NSString *)key
-            withParams:(id)params
-               handler:(UBTRouterBlock)hanler;
++ (UBTRouterManager *)pushWithTarget:(id)target
+                         toClassName:(NSString *)className;
 
 /*!
  * @brief 使用present的方式进入到一个新的页面
@@ -66,92 +65,13 @@
  * @param key    需要呈现的新的控制器
  * @param navigationName 导航栏
  *
- * @return 返回一个值标识当前是否present成功
+ * @return 返回一个UBTRouterManager对象
  */
-+ (BOOL)presentWithTarget:(id)target
-                      key:(NSString *)key
-           navigationName:(NSString *)navigationName;
++ (UBTRouterManager *)presentWithTarget:(id)target
+                                    key:(NSString *)key
+                         navigationName:(NSString *)navigationName;
 
-/*!
- * @brief 使用present的方式进入到一个新的页面，同时携带相关参数
- *
- * @discussion 当需要向下传递参数给新的控制器的时候使用改方法，传递的参数可以是任意类型，如果当前需要传多个参数，那么可以使用一个集合即可
- *
- * @param target 当前绑定的控制器，一般传self
- * @param key    配置的新的页面所配置的key
- * @param params 向下传递的数据
- * @param navigationName 导航栏
- *
- * @return 返回一个值标识当前是否present成功
- */
-+ (BOOL)presentWithTarget:(id)target
-                      key:(NSString *)key
-               withParams:(id)params
-           navigationName:(NSString *)navigationName;
 
-/*!
- * @brief 使用present的方式进入到一个新的页面
- *
- * @discussion 当需要携带参数带新的控制器的时候使用改方法，传递的参数可以是任意类型，如果当前需要传多个参数，那么可以使用一个集合即可。回调方法传回新的控制器向上传递的数据，如果需要向上传递数据，使用该方法
- *
- * @param target 当前绑定的控制器，一般传self
- * @param key    配置的新的页面所配置的key
- * @param params 向下传递的数据
- * @param hanler 回调向上传递的参数
- * @param navigationName 导航栏
- *
- * @return 返回一个值标识当前是否present成功
- */
-+ (BOOL)presentWithTarget:(id)target
-                      key:(NSString *)key
-               withParams:(id)params
-           navigationName:(NSString *)navigationName
-                  handler:(UBTRouterBlock)hanler;
-
-/*!
- * @brief 使用push的方式进入到一个新的页面
- *
- * @discussion 当不需要携带参数带新的控制器的时候使用改方法
- *
- * @param target 当前绑定的控制器，一般传self
- * @param className 需要呈现的新的控制器
- *
- * @return 返回一个值标识当前是否push成功
- */
-+ (BOOL)pushWithTarget:(id)target
-           toClassName:(NSString *)className;
-
-/*!
- * @brief 使用push的方式进入到一个新的页面，同时携带相关参数
- *
- * @discussion 当需要向下传递参数给新的控制器的时候使用改方法，传递的参数可以是任意类型，如果当前需要传多个参数，那么可以使用一个集合即可
- *
- * @param target 当前绑定的控制器，一般传self
- * @param className 需要呈现的新的控制器
- * @param params 向下传递的数据
- *
- * @return 返回一个值标识当前是否push成功
- */
-+ (BOOL)pushWithTarget:(id)target
-           toClassName:(NSString *)className
-            withParams:(id)params;
-
-/*!
- * @brief 使用push的方式进入到一个新的页面
- *
- * @discussion 当需要携带参数带新的控制器的时候使用改方法，传递的参数可以是任意类型，如果当前需要传多个参数，那么可以使用一个集合即可。回调方法传回新的控制器向上传递的数据，r如果需要向上传递数据，使用该方法
- *
- * @param target 当前绑定的控制器，一般传self
- * @param className 需要呈现的新的控制器
- * @param params 向下传递的数据
- * @param hanler 回调向上传递的参数
- *
- * @return 返回一个值标识当前是否push成功
- */
-+ (BOOL)pushWithTarget:(id)target
-           toClassName:(NSString *)className
-            withParams:(id)params
-               handler:(UBTRouterBlock)hanler;
 
 /*!
  * @brief 使用present的方式进入到一个新的页面
@@ -162,47 +82,27 @@
  * @param className 需要呈现的新的控制器
  * @param navigationName 导航栏
  *
- * @return 返回一个值标识当前是否present成功
+ * @return 返回一个UBTRouterManager对象
  */
-+ (BOOL)presentWithTarget:(id)target
-              toClassName:(NSString *)className
-           navigationName:(NSString *)navigationName;
++ (UBTRouterManager *)presentWithTarget:(id)target
+                            toClassName:(NSString *)className
+                         navigationName:(NSString *)navigationName;
 
 /*!
- * @brief 使用present的方式进入到一个新的页面，同时携带相关参数
+ * @brief 当前
  *
- * @discussion 当需要向下传递参数给新的控制器的时候使用改方法，传递的参数可以是任意类型，如果当前需要传多个参数，那么可以使用一个集合即可
+ * @discussion 当不需要携带参数带新的控制器的时候使用改方法
  *
  * @param target 当前绑定的控制器，一般传self
  * @param className 需要呈现的新的控制器
- * @param params 向下传递的数据
- * @param navigationName 导航栏
+ * @param frame 子视图的size
  *
- * @return 返回一个值标识当前是否present成功
+ * @return 返回一个UBTRouterManager对象
  */
-+ (BOOL)presentWithTarget:(id)target
-              toClassName:(NSString *)className
-               withParams:(id)params
-           navigationName:(NSString *)navigationName;
++ (UBTRouterManager *)addChildViewControllerWithTarget:(id)target
+                                             className:(NSString *)className
+                                                 frame:(CGRect)frame;
 
-/*!
- * @brief 使用present的方式进入到一个新的页面
- *
- * @discussion 当需要携带参数带新的控制器的时候使用改方法，传递的参数可以是任意类型，如果当前需要传多个参数，那么可以使用一个集合即可。回调方法传回新的控制器向上传递的数据，r如果需要向上传递数据，使用该方法
- *
- * @param target 当前绑定的控制器，一般传self
- * @param className 需要呈现的新的控制器
- * @param params 向下传递的数据
- * @param navigationName 导航栏
- * @param hanler 回调向上传递的参数
- *
- * @return 返回一个值标识当前是否present成功
- */
-+ (BOOL)presentWithTarget:(id)target
-              toClassName:(NSString *)className
-               withParams:(id)params
-           navigationName:(NSString *)navigationName
-                  handler:(UBTRouterBlock)hanler;
 
 @end
 

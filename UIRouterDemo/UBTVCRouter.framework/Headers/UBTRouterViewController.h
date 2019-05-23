@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "UBTRouterBlockParam.h"
+#import <objc/message.h>
+
+//static id (*custom_msgSend)(id, SEL, ...) = (id (*)(id, SEL, ...))objc_msgSend;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -20,6 +23,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)configureRouterBlock:(UBTRouterBlock)routerBlock;
 
 - (UBTRouterViewController * (^)(UBTRouterBlockParam *))routerBlock;
+
+- (id)callFunctionWithSelectorName:(NSString *)selectorName withObjects:(id)objects;
+
+- (id)getValueWithPropertyName:(NSString *)propertyName;
 
 @end
 
